@@ -1,6 +1,5 @@
 const { default: axios } = require("axios");
 const express = require("express");
-const cors = require("cors");
 const app = express();
 const p = process.env.PORT || 8001;
 const moment = require("moment");
@@ -23,10 +22,6 @@ db.on("error", function () {
 	console.log(err);
 });
 
-// app.use(express.json());
-// app.use(cors("*"));
-// app.use("/issData", issData);
-
 const convertTime = (givenTimeStamp) => {
 	if (givenTimeStamp !== null) {
 		return moment.unix(givenTimeStamp).format("MM/DD/YY hh:mm:ss a");
@@ -41,15 +36,16 @@ setInterval(() => {
 			timestamp: convertTime(response.data.timestamp),
 			lat: Number(response.data.iss_position.latitude),
 			lng: Number(response.data.iss_position.longitude),
+			created: String(Date()),
 		};
 		latestISSs[0] = convertResData;
-
 
 		FlyingObject.create(convertResData, function (err) {
 			if (err) throw err;
 			// console.log("Inserted a New Data")
 			console.log(convertResData);
 		});
+
 	});
 }, time);
 

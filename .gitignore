@@ -1,7 +1,2 @@
 **/node_modules
 **/.env
-
-
-ISS_ExpressToMongoDB
-Get ISS Data using Express and convert data model to store into MongoDB Atlas
-

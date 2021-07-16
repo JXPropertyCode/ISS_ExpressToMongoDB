@@ -9,7 +9,11 @@ const FlyingObject = require("./models/FlyingObject");
 
 // Mongoose connection
 const mongoose = require("mongoose");
-mongoose.connect(process.env.MONGODB_URL, {
+
+// sends to atlas server instead of my local mongodb
+const url = process.env.MONGODB_ATLAS_URL;
+
+mongoose.connect(url, {
 	useNewUrlParser: true,
 	useUnifiedTopology: true,
 });
@@ -29,11 +33,9 @@ const convertTime = (givenTimeStamp) => {
 	}
 };
 
-
 setInterval(() => {
 	axios.get("http://api.open-notify.org/iss-now.json").then((response) => {
-
-	console.log(response.data)
+		console.log(response.data);
 		let convertResData = {
 			timestamp: convertTime(response.data.timestamp),
 			lat: Number(response.data.iss_position.latitude),
@@ -45,12 +47,9 @@ setInterval(() => {
 			// console.log("Inserted a New Data")
 			// console.log(convertResData);
 		});
-
 	});
 }, time);
 
 app.get("/", (req, res) => res.send("ok"));
-
-
 
 app.listen(p, () => console.log(`Live on http://localhost:${p}`));

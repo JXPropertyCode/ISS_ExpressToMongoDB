@@ -1,3 +1,4 @@
+require("dotenv").config();
 const { default: axios } = require("axios");
 const express = require("express");
 const app = express();
@@ -28,26 +29,28 @@ const convertTime = (givenTimeStamp) => {
 	}
 };
 
-let latestISSs = [];
 
 setInterval(() => {
 	axios.get("http://api.open-notify.org/iss-now.json").then((response) => {
+
+	console.log(response.data)
 		let convertResData = {
 			timestamp: convertTime(response.data.timestamp),
 			lat: Number(response.data.iss_position.latitude),
 			lng: Number(response.data.iss_position.longitude),
 		};
-		latestISSs[0] = convertResData;
 
 		FlyingObject.create(convertResData, function (err) {
 			if (err) throw err;
 			// console.log("Inserted a New Data")
-			console.log(convertResData);
+			// console.log(convertResData);
 		});
 
 	});
 }, time);
 
-app.get("/", (req, res) => res.send(latestISSs[latestISSs.length - 1]));
+app.get("/", (req, res) => res.send("ok"));
+
+
 
 app.listen(p, () => console.log(`Live on http://localhost:${p}`));

@@ -1,14 +1,14 @@
 const { default: axios } = require("axios");
 const express = require("express");
 const app = express();
-const p = process.env.PORT || 8001;
+const p = process.env.PORT;
 const moment = require("moment");
 const time = 3000;
 const FlyingObject = require("./models/FlyingObject");
 
 // Mongoose connection
 const mongoose = require("mongoose");
-mongoose.connect("mongodb://localhost:27017/iss", {
+mongoose.connect(process.env.MONGODB_URL, {
 	useNewUrlParser: true,
 	useUnifiedTopology: true,
 });
@@ -36,7 +36,6 @@ setInterval(() => {
 			timestamp: convertTime(response.data.timestamp),
 			lat: Number(response.data.iss_position.latitude),
 			lng: Number(response.data.iss_position.longitude),
-			created: String(Date()),
 		};
 		latestISSs[0] = convertResData;
 

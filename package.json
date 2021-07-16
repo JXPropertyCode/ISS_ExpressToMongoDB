@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
+    "local-start": "PORT=8001 MONGODB_URL=mongodb://127.0.0.1:27017/iss node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
